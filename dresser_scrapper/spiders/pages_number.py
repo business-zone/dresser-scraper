@@ -1,7 +1,7 @@
 import scrapy
 
 
-class ExampleSpider(scrapy.Spider):
+class PagesNumberSpider(scrapy.Spider):
     name = "pages_number"
 
     def start_requests(self):
