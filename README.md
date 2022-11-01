@@ -2,7 +2,7 @@
 
 ## About
 
-Scraps dresser names and dresser page URLs from [Salony Agata](https://www.agatameble.pl/).
+Scraps dresser names and prices from [Salony Agata](https://www.agatameble.pl/).
 
 This data is used in a [PrestaShop](https://www.prestashop.com/) website as a part of Electronic Business studies course.
 
@@ -17,7 +17,7 @@ pip install scrapy
 ### Commands
 To run the scrapper use:
 ```sh
-scrapy crawl pages_number | scrapy crawl dresser_names
+scrapy crawl pages_number | scrapy crawl urls | scrapy crawl dressers
 ```
 ### Output
-data.csv — contains dresser names and dedicated page URLs.
+data.csv — contains dresser names and prices.
