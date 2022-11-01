@@ -13,4 +13,10 @@ class DresserNamesSpider(scrapy.Spider):
 
     def parse(self, response):
         for dresser in response.css("div.m-offerBox_name"):
-            yield {"dresser_name": dresser.css("a::text")}
+            dresser_url = f"https://www.agatameble.pl{dresser.css('a').attrib['href']}"
+            with open("dresser_urls.txt", "a") as file:
+                file.write(f"{dresser_url}\n")
+            yield {
+                "dresser_name": dresser.css("a::text").get(),
+                "url": dresser_url
+                }
