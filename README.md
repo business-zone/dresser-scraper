@@ -17,7 +17,7 @@ pip install scrapy
 ### Commands
 To run the scrapper use:
 ```sh
-scrapy crawl pages_number | scrapy crawl urls | scrapy crawl dressers
+scrapy crawl dressers
 ```
 ### Output
 data.csv — contains dresser names and prices.
