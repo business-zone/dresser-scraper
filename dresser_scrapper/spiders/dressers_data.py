@@ -36,13 +36,11 @@ class DressersSpider(scrapy.Spider):
         price = response.css("div.m-priceBox_price.m-priceBox_promo::text").get().replace("-", "").replace('"',
                                                                                                            "").strip()
         category = response.meta["category"]
-        img_urls_string = ""
-        for img_url_src in [img.attrib['src'] for img in response.css("img.undefined")]:
-            img_urls_string += f"https://www.agatameble.pl{img_url_src}, "
-        img_urls_string = re.sub(", $", "", img_urls_string)
+        description = response.css("div.widget.text_editor.clearfix2").getall()[1]
+        print(description)
         yield {
             "name": name,
             "price tax included": price,
             "category": category,
-            "img url": img_urls_string
+            "description": description
         }
