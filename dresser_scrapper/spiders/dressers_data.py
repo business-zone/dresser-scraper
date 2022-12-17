@@ -27,10 +27,12 @@ class DressersSpider(scrapy.Spider):
             yield scrapy.Request(url=dresser_url, callback=self.parse_dresser)
 
     def parse_dresser(self, response):
-        name = response.css("h1.m-typo.m-typo_primary.is-full::text").get()
+        name = response.css("h1.m-typo.m-typo_primary.is-full::text").get().replace('"', "").strip().strip()
         if not name:
-            name = response.css("h1.m-typo.m-typo_primary::text").get()
+            name = response.css("h1.m-typo.m-typo_primary::text").get().replace('"', "").strip().strip()
+        price = response.css("div.m-priceBox_price.m-priceBox_promo::text").get().replace("-", "").replace('"',
+                                                                                                           "").strip()
         yield {
             "name": name,
-            "price": response.css("div.m-priceBox_price.m-priceBox_promo::text").get().replace(",-", "")
+            "price": price
         }
