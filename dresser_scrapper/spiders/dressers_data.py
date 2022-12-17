@@ -1,5 +1,6 @@
 import scrapy
 import random
+import re
 
 
 class DressersSpider(scrapy.Spider):
@@ -33,17 +34,22 @@ class DressersSpider(scrapy.Spider):
             name = name.get().replace('"', "").strip()
         else:
             name = response.css("h1.m-typo.m-typo_primary::text").get().replace('"', "").strip()
-        price = response.css("div.m-priceBox_price.m-priceBox_promo::text").get().replace("-", "").replace('"',
-                                                                                                           "").strip()
-        category = response.meta["category"]
-        description = response.css("div.widget.text_editor.clearfix2").getall()[1]
-        print(description)
+        price = response.css("div.m-priceBox_price.m-priceBox_promo::text").get().replace("-", "").replace('"', "").strip()
+        category = f"Styl {response.meta['category']}"
+        description = response.css("div.widget.text_editor").getall()[1]
+        # if description := response.css("div.widget.text_editor.clearfix2").getall():
+        #     description = description[1] if len(description) == 2 else description[0]
+        tagless_description = re.sub("<[^>]+>", " ", description)
+        description = ' '.join(tagless_description.split()).strip().replace('"', "")
+        active = 1
+        tax_rule_id = 1
+        quantity = random.randint(1, 100)
         yield {
-            "Active (0/1)": 1,
+            "Active (0/1)": active,
             "Name*": name,
             "Categories (x,y,z...)": category,
             "Price tax included": price,
-            "Tax rule ID": 1,
-            "Quantity": random.randint(1, 100),
+            "Tax rule ID": tax_rule_id,
+            "Quantity": quantity,
             "Description": description
         }
