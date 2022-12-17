@@ -1,5 +1,5 @@
 import scrapy
-import re
+import random
 
 
 class DressersSpider(scrapy.Spider):
@@ -39,8 +39,11 @@ class DressersSpider(scrapy.Spider):
         description = response.css("div.widget.text_editor.clearfix2").getall()[1]
         print(description)
         yield {
-            "name": name,
-            "price tax included": price,
-            "category": category,
-            "description": description
+            "Active (0/1)": 1,
+            "Name*": name,
+            "Categories (x,y,z...)": category,
+            "Price tax included": price,
+            "Tax rule ID": 1,
+            "Quantity": random.randint(1, 100),
+            "Description": description
         }
