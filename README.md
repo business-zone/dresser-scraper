@@ -1,4 +1,4 @@
-# Dresser Scrapper
+# Dresser Scraper
 
 ## About
 
@@ -15,7 +15,7 @@ pip install scrapy
 
 ## Usage
 ### Commands
-To run the scrapper use:
+To run the scraper use:
 ```sh
 scrapy crawl dressers
 ```
