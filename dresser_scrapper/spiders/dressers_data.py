@@ -41,15 +41,21 @@ class DressersSpider(scrapy.Spider):
         #     description = description[1] if len(description) == 2 else description[0]
         tagless_description = re.sub("<[^>]+>", " ", description)
         description = ' '.join(tagless_description.split()).strip().replace('"', "")
+        img_urls = ""
+        for img in response.css("div#js-offerGallery.m-offerGallery_wrap").css("div.m-offerGallery_item.js-thumbs"):
+            img_url_part = img.css("img.m-offerGallery_picture").attrib['src']
+            img_urls += f"https://www.agatameble.pl{img_url_part}, "
+        img_urls = re.sub(", $", "", img_urls)
         active = 1
         tax_rule_id = 1
         quantity = random.randint(1, 100)
         yield {
             "Active (0/1)": active,
-            "Name*": name,
+            "Name": name,
             "Categories (x,y,z...)": category,
             "Price tax included": price,
             "Tax rule ID": tax_rule_id,
             "Quantity": quantity,
-            "Description": description
+            "Description": description,
+            "Image URLs (x,y,z...)": img_urls
         }
