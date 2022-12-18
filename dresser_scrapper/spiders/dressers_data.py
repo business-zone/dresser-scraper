@@ -37,8 +37,6 @@ class DressersSpider(scrapy.Spider):
         price = response.css("div.m-priceBox_price.m-priceBox_promo::text").get().replace("-", "").replace('"', "").strip()
         category = f"Styl {response.meta['category']}"
         description = response.css("div.widget.text_editor").getall()[1]
-        # if description := response.css("div.widget.text_editor.clearfix2").getall():
-        #     description = description[1] if len(description) == 2 else description[0]
         tagless_description = re.sub("<[^>]+>", " ", description)
         description = ' '.join(tagless_description.split()).strip().replace('"', "")
         img_urls = ""
@@ -49,6 +47,11 @@ class DressersSpider(scrapy.Spider):
         active = 1
         tax_rule_id = 1
         quantity = random.randint(1, 100)
+        data_table = response.css("div.m-offerShowData_item.js-offerShowData_item")[3].css("dl.m-offerShowData_row.clearfix2.is-numeric")
+        height = data_table[0].css("dd.m-offerShowData_param").css("p::text").get().strip()
+        depth = data_table[1].css("dd.m-offerShowData_param").css("p::text").get().strip()
+        width = data_table[2].css("dd.m-offerShowData_param").css("p::text").get().strip()
+        weight = data_table[3].css("dd.m-offerShowData_param").css("p::text").get().strip()
         yield {
             "Active (0/1)": active,
             "Name": name,
@@ -57,5 +60,9 @@ class DressersSpider(scrapy.Spider):
             "Tax rule ID": tax_rule_id,
             "Quantity": quantity,
             "Description": description,
-            "Image URLs (x,y,z...)": img_urls
+            "Image URLs (x,y,z...)": img_urls,
+            "Height": height,
+            "Depth": depth,
+            "Width": width,
+            "Weight": weight
         }
